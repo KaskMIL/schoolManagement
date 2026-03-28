@@ -101,13 +101,20 @@ export class UsersService implements OnApplicationBootstrap {
     const em = this.em.fork();
     const repository = new UsersRepository(em);
 
-    const password = this.configService.getOrThrow<string>('ROOT_PASSWORD');
-    const existingUser = await repository.findOneByUsername('root');
-    if (existingUser !== null) return;
+    const rootPassword = this.configService.getOrThrow<string>('ROOT_PASSWORD');
+    const existingRoot = await repository.findOneByUsername('root');
+    if (existingRoot === null) {
+      this.logger.log('Creating root user...');
+      const passwordHash = await this.passwordService.hash(rootPassword);
+      await em.persist(new User({ username: 'root', role: Role.Admin, passwordHash })).flush();
+    }
 
-    this.logger.log('Creating root user...');
-    const passwordHash = await this.passwordService.hash(password);
-    const user = new User({ username: 'root', role: Role.Admin, passwordHash });
-    await em.persist(user).flush();
+    const adminPassword = this.configService.get<string>('ADMIN_PASSWORD', 'admin');
+    const existingAdmin = await repository.findOneByUsername('admin');
+    if (existingAdmin === null) {
+      this.logger.log('Creating admin user...');
+      const passwordHash = await this.passwordService.hash(adminPassword);
+      await em.persist(new User({ username: 'admin', role: Role.Admin, passwordHash })).flush();
+    }
   }
 }
