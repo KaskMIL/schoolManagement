@@ -33,8 +33,14 @@ export class Enrollment {
   @Enum({ items: () => Level, nativeEnumName: 'education_level' })
   level: Level;
 
-  @Property({ type: 'text' })
-  gradeOrRoom: string;
+  /**
+   * Grado/sala dentro del nivel:
+   * - jardin: 3, 4 o 5 (sala)
+   * - primaria: 1 a 6
+   * - secundaria: 1 a 6
+   */
+  @Property({ type: 'smallint' })
+  grade: number;
 
   @Enum({ items: () => Section, nativeEnumName: 'section_type' })
   section: Section;
@@ -55,7 +61,7 @@ export class Enrollment {
     this.student = props.student;
     this.academicYear = props.academicYear;
     this.level = props.level;
-    this.gradeOrRoom = props.gradeOrRoom;
+    this.grade = props.grade;
     this.section = props.section;
     this.shift = props.shift;
     this.status = props.status ?? EnrollmentStatus.Inscripto;
@@ -66,7 +72,7 @@ export class Enrollment {
   update(data: EnrollmentUpdate) {
     this.academicYear = data.academicYear;
     this.level = data.level;
-    this.gradeOrRoom = data.gradeOrRoom;
+    this.grade = data.grade;
     this.section = data.section;
     this.shift = data.shift;
     this.status = data.status ?? this.status;
@@ -77,12 +83,12 @@ export class Enrollment {
 
 export type EnrollmentProps = Pick<
   Enrollment,
-  'student' | 'academicYear' | 'level' | 'gradeOrRoom' | 'section' | 'shift'
+  'student' | 'academicYear' | 'level' | 'grade' | 'section' | 'shift'
 > &
   Partial<Pick<Enrollment, 'status' | 'enrollmentDate' | 'notes'>>;
 
 export type EnrollmentUpdate = Pick<
   Enrollment,
-  'academicYear' | 'level' | 'gradeOrRoom' | 'section' | 'shift'
+  'academicYear' | 'level' | 'grade' | 'section' | 'shift'
 > &
   Partial<Pick<Enrollment, 'status' | 'enrollmentDate' | 'notes'>>;

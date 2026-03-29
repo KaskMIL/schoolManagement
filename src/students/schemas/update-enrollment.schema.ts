@@ -7,7 +7,7 @@ import { Shift } from '../entities/shift.enum';
 export const updateEnrollmentSchema = z.object({
   academicYear: z.number().int().min(2020).max(2099),
   level: z.enum(Level),
-  gradeOrRoom: z.string().trim().min(1).max(50),
+  grade: z.number().int().min(1).max(6),
   section: z.enum(Section),
   shift: z.enum(Shift),
   status: z.enum(EnrollmentStatus).optional(),

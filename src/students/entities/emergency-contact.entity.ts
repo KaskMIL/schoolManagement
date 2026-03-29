@@ -20,7 +20,7 @@ export class EmergencyContact {
   relationship: string;
 
   @Property({ type: 'integer' })
-  priorityOrder: number = 1;
+  priorityOrder = 1;
 
   constructor(props: EmergencyContactProps) {
     this.student = props.student;

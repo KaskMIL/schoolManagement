@@ -6,7 +6,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'node:path';
 import { AuthModule } from './auth/auth.module';
 import { FamiliesModule } from './families/families.module';
+import { FeeConceptsModule } from './fee-concepts/fee-concepts.module';
+import { FeePricesModule } from './fee-prices/fee-prices.module';
 import { InstitutionsModule } from './institutions/institutions.module';
+import { PriceTiersModule } from './price-tiers/price-tiers.module';
+import { StudentServicesModule } from './student-services/student-services.module';
 import { StudentsModule } from './students/students.module';
 import { UsersModule } from './users/users.module';
 
@@ -35,6 +39,10 @@ import { UsersModule } from './users/users.module';
     FamiliesModule,
     InstitutionsModule,
     StudentsModule,
+    PriceTiersModule,
+    FeeConceptsModule,
+    FeePricesModule,
+    StudentServicesModule,
   ],
 })
 export class AppModule {}

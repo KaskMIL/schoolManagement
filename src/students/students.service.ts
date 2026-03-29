@@ -29,7 +29,8 @@ export class StudentsService {
     const institution = await this.em.findOne(Institution, { id: data.institutionId });
     if (!institution) throw new NotFoundException('Institución no encontrada');
 
-    const { familyId: _f, institutionId: _i, ...rest } = data;
+    const { familyId, institutionId, ...rest } = data;
+    void familyId; void institutionId;
     const student = new Student({
       ...rest,
       family: wrap(family).toReference(),
