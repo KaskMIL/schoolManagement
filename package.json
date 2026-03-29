@@ -28,6 +28,7 @@
     "@nestjs/serve-static": "^5.0.3",
     "argon2": "^0.43.1",
     "cookie-parser": "^1.4.7",
+    "decimal.js": "^10.6.0",
     "micromatch": "^4.0.8",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
