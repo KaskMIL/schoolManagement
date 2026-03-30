@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'node:path';
 import { AuthModule } from './auth/auth.module';
+import { DiscountsModule } from './discounts/discounts.module';
 import { FamiliesModule } from './families/families.module';
 import { FeeConceptsModule } from './fee-concepts/fee-concepts.module';
 import { FeePricesModule } from './fee-prices/fee-prices.module';
@@ -49,6 +50,7 @@ import { UsersModule } from './users/users.module';
     SystemConfigModule,
     InstallmentsModule,
     PaymentsModule,
+    DiscountsModule,
   ],
 })
 export class AppModule {}

@@ -1,7 +1,9 @@
 import {
+  Collection,
   Entity,
   Enum,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryKey,
   Property,
@@ -9,10 +11,10 @@ import {
 } from '@mikro-orm/core'
 import * as uuid from 'uuid'
 import { Family } from '../../families/entities/family.entity'
-import { Installment } from '../../installments/entities/installment.entity'
 import { User } from '../../users/entities/user.entity'
-import { Receipt } from './receipt.entity'
+import { PaymentAllocation } from './payment-allocation.entity'
 import { PaymentMethod } from './payment-method.enum'
+import { Receipt } from './receipt.entity'
 
 @Entity({ tableName: 'payments' })
 export class Payment {
@@ -27,10 +29,6 @@ export class Payment {
 
   @ManyToOne(() => Family, { ref: true })
   family: Ref<Family>
-
-  /** null si es pago a cuenta sin cuota asociada */
-  @ManyToOne(() => Installment, { ref: true, nullable: true })
-  installment: Ref<Installment> | null = null
 
   @Property({ columnType: 'numeric(10,2)' })
   amount: string
@@ -54,9 +52,12 @@ export class Payment {
   @OneToOne(() => Receipt, (r) => r.payment, { mappedBy: 'payment', nullable: true })
   receipt: Receipt | null = null
 
+  /** Asignaciones de este pago a cuotas específicas (puede ser vacío para pagos a cuenta) */
+  @OneToMany(() => PaymentAllocation, (a) => a.payment, { cascade: [] })
+  allocations = new Collection<PaymentAllocation>(this)
+
   constructor(props: PaymentProps) {
     this.family = props.family
-    this.installment = props.installment ?? null
     this.amount = props.amount
     this.paymentDate = props.paymentDate
     this.method = props.method
@@ -70,4 +71,4 @@ export type PaymentProps = Pick<
   Payment,
   'family' | 'amount' | 'paymentDate' | 'method' | 'receivedBy'
 > &
-  Partial<Pick<Payment, 'installment' | 'reference' | 'notes'>>
+  Partial<Pick<Payment, 'reference' | 'notes'>>

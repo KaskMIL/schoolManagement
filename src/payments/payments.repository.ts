@@ -10,13 +10,17 @@ export class PaymentsRepository {
   async findByFamily(familyId: string) {
     return this.em.findAll(Payment, {
       where: { family: { id: familyId } },
-      populate: ['receipt', 'installment', 'receivedBy'],
+      populate: ['receipt', 'allocations', 'allocations.installment', 'receivedBy'],
       orderBy: { paymentDate: 'DESC', createdAt: 'DESC' },
     })
   }
 
   async findOneById(id: string) {
-    return this.em.findOne(Payment, { id }, { populate: ['receipt', 'installment', 'receivedBy', 'family'] })
+    return this.em.findOne(
+      Payment,
+      { id },
+      { populate: ['receipt', 'allocations', 'allocations.installment', 'receivedBy', 'family'] },
+    )
   }
 
   async getNextReceiptNumber(academicYear: number): Promise<number> {

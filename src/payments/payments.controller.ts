@@ -24,6 +24,12 @@ export class PaymentsController {
     return this.paymentsService.listByFamily(query.familyId)
   }
 
+  @Get(':paymentId/receipt-data')
+  @RequirePermission('payments:read')
+  async getReceiptData(@Param('paymentId', UuidPipe) paymentId: string) {
+    return this.paymentsService.getReceiptData(paymentId)
+  }
+
   @Get(':paymentId')
   @RequirePermission('payments:read')
   async getPayment(@Param('paymentId', UuidPipe) paymentId: string) {
