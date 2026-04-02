@@ -266,7 +266,8 @@ async function main() {
     console.log('[Fase 3] Familias, responsables y alumnos...')
     console.log('[Fase 4] Cuotas e historial de pagos...')
 
-    let receiptCounter = 0
+    const maxReceipt = await em.findOne(Receipt, { academicYear: 2025 }, { orderBy: { receiptNumber: 'DESC' } })
+    let receiptCounter = maxReceipt?.receiptNumber ?? 0
 
     for (let i = 0; i < 100; i++) {
       const lastName = pick(LAST_NAMES, i)
