@@ -9,8 +9,11 @@ import { Guardian } from './entities/guardian.entity';
 export class FamiliesRepository {
   constructor(private readonly em: EntityManager) {}
 
-  async findAll(opts: PaginationOptions, status?: FamilyStatus) {
-    const where = status ? { status } : {};
+  async findAll(opts: PaginationOptions, status?: FamilyStatus, search?: string) {
+    const where: Record<string, unknown> = {};
+    if (status) where.status = status;
+    if (search) where.familyName = { $ilike: `%${search}%` };
+
     const [items, total] = await this.em.findAndCount(Family, where, {
       offset: (opts.page - 1) * opts.limit,
       limit: opts.limit,

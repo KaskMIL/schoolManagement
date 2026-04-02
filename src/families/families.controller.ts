@@ -25,6 +25,7 @@ import { z } from 'zod';
 
 const listFamiliesQuerySchema = paginationOptionsSchema.extend({
   status: z.enum(FamilyStatus).optional(),
+  search: z.string().optional(),
 });
 
 @Controller('families')
@@ -41,10 +42,10 @@ export class FamiliesController {
   @RequirePermission('families:list')
   async listFamilies(
     @Query(new ZodPipe(listFamiliesQuerySchema))
-    query: PaginationOptions & { status?: FamilyStatus },
+    query: PaginationOptions & { status?: FamilyStatus; search?: string },
   ) {
-    const { status, ...opts } = query;
-    return this.familiesService.listFamilies(opts, status);
+    const { status, search, ...opts } = query;
+    return this.familiesService.listFamilies(opts, status, search);
   }
 
   @Get(':familyId')

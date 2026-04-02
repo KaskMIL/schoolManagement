@@ -37,8 +37,8 @@ export class FamiliesService {
     return family;
   }
 
-  async listFamilies(opts: PaginationOptions, status?: FamilyStatus) {
-    return this.familiesRepository.findAll(opts, status);
+  async listFamilies(opts: PaginationOptions, status?: FamilyStatus, search?: string) {
+    return this.familiesRepository.findAll(opts, status, search);
   }
 
   async getFamily(familyId: string) {
