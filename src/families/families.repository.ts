@@ -1,5 +1,5 @@
 import { PaginationOptions } from '@/common/pagination-options.schema';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { EntityManager, FilterQuery } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { FamilyStatus } from './entities/family-status.enum';
 import { Family } from './entities/family.entity';
@@ -10,7 +10,7 @@ export class FamiliesRepository {
   constructor(private readonly em: EntityManager) {}
 
   async findAll(opts: PaginationOptions, status?: FamilyStatus, search?: string) {
-    const where: Record<string, unknown> = {};
+    const where: FilterQuery<Family> = {};
     if (status) where.status = status;
     if (search) where.familyName = { $ilike: `%${search}%` };
 

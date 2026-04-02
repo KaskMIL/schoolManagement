@@ -25,7 +25,7 @@ import { z } from 'zod';
 
 const listFamiliesQuerySchema = paginationOptionsSchema.extend({
   status: z.enum(FamilyStatus).optional(),
-  search: z.string().optional(),
+  search: z.string().max(100).optional(),
 });
 
 @Controller('families')
